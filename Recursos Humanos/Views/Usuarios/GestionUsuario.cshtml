@@ -1,0 +1,45 @@
+﻿@model ICollection<Usuario>
+
+<div class="card text-center">
+    <div class="card-header">
+        Administración de Usuarios
+    </div>
+    <div class="card-body">
+        <a asp-controller="Usuarios" asp-action="CreateUser" 
+         class="btn btn-outline-primary"><i class="fa-solid fa-user-plus me-2"></i>Agregar Nuevo Usuario</a>
+    </div>
+</div>
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Rol</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var U in Model)
+            {
+                <tr>
+                    <td>@U.Name</td>
+                    <td>@U.Email</td>
+                    <td>@U.Username</td>
+                    <td>@U.Rol</td>
+                    <td>
+                        <a asp-controller="Usuarios" asp-action="EditUser" asp-route-UsuarioId="@U.UsuarioId"><i class="fa-solid fa-user-pen"></i></a>
+                        @if (@U.Rol != "SuperAdministrador")
+                        {
+                            <a asp-controller="Usuarios" asp-action="EliminarUsuario"
+                       asp-route-UsuarioId="@U.UsuarioId"
+                       onclick="return confirm('Estas Seguro?')"><i class="fa-solid fa-trash"></i></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

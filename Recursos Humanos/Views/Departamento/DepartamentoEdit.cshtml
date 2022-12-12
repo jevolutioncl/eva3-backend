@@ -1,0 +1,41 @@
+﻿@model Departamento
+
+@{
+    ViewData["Title"] = "Editar Departamento";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        Edicion de Departamentos
+    </div>
+    <div class="card-body">
+        <a class="btn btn-outline-primary"><i class="fa-solid fa-user-plus me-2"></i>Volver a los Departamentos</a>
+    </div>
+</div>
+
+<div>
+    <form class="row justify-content-evenly" asp-action="DepartamentoEdit">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mt-3">
+                <input asp-for="DepartamentoId" class="form-control" type="hidden" />
+                <span asp-validation-for="DepartamentoId" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="NombreDepartamento" class="form-control" placeholder="Nombre del Departamento" />
+                <span asp-validation-for="NombreDepartamento" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="AreaDepartamento" class="form-control" placeholder="Area a la que Pertenece" />
+                <span asp-validation-for="AreaDepartamento" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar Cambios" class="btn btn-outline-success col-12" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,124 @@
+﻿@{
+
+
+    @model List<Colaborador>
+
+    bool esAdmin = false;
+    foreach(var c in User.Claims) {
+        @if (c.Value == "SuperAdministrador") esAdmin = true;
+    }
+    bool esJefeRRHH = false;
+    foreach(var a in User.Claims) {
+        @if (a.Value == "JefeRRHH") esJefeRRHH = true;
+    }
+    bool esAsistenteRRHH = false;
+    foreach(var b in User.Claims){
+        @if (b.Value == "AsistenteRRHH") esAsistenteRRHH = true;
+    }
+
+}
+<div class="card text-center">
+    <div class="card-header">
+        Administracion de Colaboradores
+    </div>
+    <div class="card-body">
+        <a asp-action="ColaboradorCreate"
+           class="btn btn-outline-primary"><i class="fa-solid fa-laptop me-2"></i>Agregar Nuevo Colaborador</a>
+    </div>
+    <div class="card-body">
+        <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="fa-solid fa-filter me-2"></i>Filtrar</a>
+        <a asp-action="ColaboradorIndex" class="btn btn-outline-danger"><i class="fa-solid fa-filter-circle-xmark me-2"></i></a>
+    </div>
+</div>
+
+<div class="row justify-content-evenly mt-3" >
+    <div style="overflow:auto;">
+        <table class="table" >
+            <thead>
+                <tr>
+                    <th>Rut</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Direccion</th>
+                    <th>Comuna</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th>Fecha de Contrata</th>
+                    <th>Indefinido</th>
+                    <th>Departamento</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Rut
+                        </td>
+                        <td>
+                            @item.Nombres
+                        </td>
+                        <td>
+                            @item.Apellidos
+                        </td>
+                        <td>@item.Direccion</td>
+                        <td>@item.Comuna</td>
+                        <td>@item.Telefono</td>
+                        <td>@item.Correo</td>
+                        <td>@item.FechaContratacion.ToString("d")</td>
+                        @if (item.ContratoIndefinido)
+                        {
+                            <td>Si</td>
+                        }
+                        else
+                        {
+                            <td>No</td>
+                        }
+                        <td>@item.Departamento.NombreDepartamento</td>
+
+                        <td>
+                            @if(esAdmin){
+                                <a asp-action="ColaboradorEdit" asp-route-Rut="@item.Rut"><i class="fa-solid fa-pen-to-square me-2"></i></a>
+                                <a onclick="return confirm('¿Estas seguro de eliminar este colaborador?')"
+                           asp-action="ColaboradorDelete" asp-route-Rut="@item.Rut"><i class="fa-solid fa-trash me-2 text-danger"></i></a>
+                            }
+                            @if(esJefeRRHH){
+                                <a asp-action="ColaboradorEdit" asp-route-Rut="@item.Rut"><i class="fa-solid fa-pen-to-square me-2"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content m-3 p-3">
+            <form asp-action="ColaboradorIndex" method="get" class="row justify-content-evenly md-2 p-2">
+                <div class="col-12">
+                    <div class="form-group m-2">
+                        <input name="Filtro" class="form-control" type="text" placeholder="Palabra Clave" />
+                    </div>
+                    <div class="form-group m-2">
+                        <select name="DepartamentoId" class="form-select" asp-items="ViewBag.Departamentos">
+                            <option>Departamento...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label"></label>
+                    <button type="submit" class="btn btn-primary col-12">Filtrar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+

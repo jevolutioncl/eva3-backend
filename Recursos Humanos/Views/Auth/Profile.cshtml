@@ -1,0 +1,26 @@
+﻿@model Recursos_Humanos.ViewModels.ProfileViewModel
+
+
+<div class="m-3">
+    <table class="table table-sm text-center">
+        <h2>Tu perfil:</h2>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>@Model.Usuario.Username</td>
+                    <td>@Model.Usuario.Name</td>
+                    <td>@Model.Usuario.Email</td>
+                    <td>@Model.Usuario.Rol</td>
+                <td><a asp-controller="Auth" asp-action="EditUser2" asp-route-UsuarioId="@Model.Usuario.UsuarioId"><i class="fa-solid fa-user-pen"></i></a></td>
+                </tr>
+        </tbody>
+    </table>
+</div>

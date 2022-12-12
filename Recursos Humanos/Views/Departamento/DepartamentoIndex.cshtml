@@ -1,0 +1,95 @@
+﻿@{
+
+
+    @model List<Departamento>
+
+    bool esAdmin = false;
+    foreach (var c in User.Claims)
+    {
+        @if (c.Value == "SuperAdministrador") esAdmin = true;
+    }
+    bool esJefeRRHH = false;
+    foreach (var a in User.Claims)
+    {
+        @if (a.Value == "JefeRRHH") esJefeRRHH = true;
+    }
+    bool esAsistenteRRHH = false;
+    foreach (var b in User.Claims)
+    {
+        @if (b.Value == "AsistenteRRHH") esAsistenteRRHH = true;
+    }
+
+}
+<div class="card text-center">
+    <div class="card-header">
+        Administracion de Departamentos
+    </div>
+    <div class="card-body">
+        <a asp-action="DepartamentoCreate"
+           class="btn btn-outline-primary"><i class="fa-solid fa-laptop me-2"></i>Agregar Nuevo Departamento</a>
+    </div>
+    <div class="card-body">
+        <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="fa-solid fa-filter me-2"></i>Filtrar</a>
+        <a asp-action="DepartamentoIndex" class="btn btn-outline-danger"><i class="fa-solid fa-filter-circle-xmark me-2"></i></a>
+    </div>
+</div>
+
+<div class="row justify-content-evenly mt-3">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre del Departamento</th>
+                <th>Area</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.NombreDepartamento
+                    </td>
+                    <td>
+                        @item.AreaDepartamento
+                    </td>
+
+                    <td>
+                        @if (esAdmin){
+                            <a asp-action="DepartamentoEdit" asp-route-DepartamentoId="@item.DepartamentoId"><i class="fa-solid fa-pen-to-square me-2"></i></a>
+                            <a onclick="return confirm('¿Estas seguro de eliminar este Departamento?')"
+                       asp-action="DepartamentoDelete" asp-route-DepartamentoId="@item.DepartamentoId"><i class="fa-solid fa-trash me-2 text-danger"></i></a>
+                        }
+                        @if (esJefeRRHH){
+                            <a asp-action="DepartamentoEdit" asp-route-DepartamentoId="@item.DepartamentoId"><i class="fa-solid fa-pen-to-square me-2"></i></a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content m-3 p-3">
+            <form asp-action="DepartamentoIndex" method="get" class="row justify-content-evenly md-2 p-2">
+                <div class="col-12">
+                    <div class="form-group m-2">
+                        <input name="Filtro" class="form-control" type="text" placeholder="Palabra Clave" />
+                    </div>
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label"></label>
+                    <button type="submit" class="btn btn-primary col-12">Filtrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

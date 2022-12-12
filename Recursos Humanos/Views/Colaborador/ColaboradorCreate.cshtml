@@ -1,0 +1,74 @@
+﻿@model Colaborador
+
+@{
+    ViewData["Title"] = "Crear Colaborador";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        Creación de Colaboradores
+    </div>
+    <div class="card-body">
+        <a class="btn btn-outline-primary"><i class="fa-solid fa-user-plus me-2"></i>Volver a los Colaboradores</a>
+    </div>
+</div>
+
+<div>
+    <form class="row justify-content-evenly" asp-action="ColaboradorCreate" method="post">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mt-3">
+                <input asp-for="Rut" class="form-control" placeholder="Rut 1.111.111-1" />
+                <span asp-validation-for="Rut" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="Nombres" class="form-control" placeholder="Nombres" />
+                <span asp-validation-for="Nombres" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="Apellidos" class="form-control" placeholder="Apellidos" />
+                <span asp-validation-for="Apellidos" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="Direccion" class="form-control" placeholder="Direccion"/>
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="Comuna" class="form-control" placeholder="Comuna" />
+                <span asp-validation-for="Comuna" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input asp-for="Telefono" class="form-control" placeholder="Telefono +56 9 1234 5678" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            
+            <div class="form-group mt-3">
+                <input asp-for="Correo" class="form-control" placeholder="Correo Electronico"/>
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label class="control-label">Fecha de Contratacion</label>
+                <input type="date" asp-for="FechaContratacion" class="form-control" />
+                <span asp-validation-for="FechaContratacion" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check mt-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ContratoIndefinido" /> Contrato Indefinido
+                </label>
+            </div>
+            <div class="form-group mt-3">
+                <label class="control-label">Departamento al que Pertenece</label>
+                <select asp-for="DepartamentoId" class="form-control" asp-items="ViewBag.Departamentos"></select>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Crear Colaborador" class="btn btn-outline-success col-12" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
